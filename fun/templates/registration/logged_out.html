@@ -1,0 +1,13 @@
+{% extends  'base.html' %}
+
+{% block content %}
+    <div class="p-x-1 p-y-3" style="width: 20%; margin: 0 auto;">
+    <div class="card card-block m-x-auto bg-faded form-width form" style="border-radius: 30px; box-shadow: 0 0 75px;">
+        <div class="text-xs-center">
+            <a  href="{% url 'login' %}">Войти еще раз</a>
+            <br>
+            <a  href="{% url 'main' %}">На главную</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

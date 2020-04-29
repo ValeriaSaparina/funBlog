@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="p-x-1 p-y-3" style="width: 20%; margin: 0 auto; margin-top: 1%; border-radius: 30px">
+		<form class="card card-block m-x-auto bg-faded form-width form" method="POST"
+			  style="box-shadow: 0 0 100px; border-radius: 30px">
+			{% csrf_token %}
+			{% if flag %}
+				<div class="alert alert-danger" role="alert">
+				  Проверьте правильность введенных данных
+				</div>
+			{% endif %}
+				<legend class="m-b-1 text-xs-center">Регистрация</legend>
+				{% for field in form%}
+					<div class="form-group input-group">
+						<span class="has-float-label">
+							{{ field }}
+							<label>{{ field.label_tag }}</label>
+						</span>
+					</div>
+				{% endfor %}
+				<ul>
+					<li><small>Не используйте личную информацию для пароля</small></li>
+					<li><small>Ваш пароль должен быть не менее 8 символов</small></li>
+					<li><small>Ваш пароль не должен содержать только цифры</small></li>
+					<li><small>В Вашем пароле должны быть заглавные и строчные буквы</small></li>
+				</ul>
+<!--				</div>-->
+<!--				<div class="form-group input-group">-->
+<!--					<span class="has-float-label">-->
+<!--                        {{ form.username }}-->
+<!--						<label>Nickname</label>-->
+<!--					</span>-->
+<!--				</div>-->
+<!--				<div class="form-group has-float-label">-->
+<!--					<span class="has-float-label">-->
+<!--						{{ form.password1 }}-->
+<!--						<label>Пароль</label>-->
+<!--						<ul>-->
+<!--							<li><small>Не используйте личную информацию для пароля</small></li>-->
+<!--							<li><small>Ваш пароль должен быть не менее 8 символов</small></li>-->
+<!--							<li><small>Ваш пароль не должен содержать только цифры</small></li>-->
+<!--							<li><small>В Вашем пароле должны быть заглавные и строчные буквы</small></li>-->
+<!--						</ul>-->
+<!--					</span>-->
+<!--				</div>-->
+<!--                <div class="form-group has-float-label">-->
+<!--					{{ form.password2 }}-->
+<!--					<label>Пароль</label>-->
+<!--				</div>-->
+				<div class="text-xs-center">
+					<button class="btn btn-block btn-primary" type="submit">Зарегистрироваться</button>
+                </div>
+        </form>
+</div>
+{% endblock %}

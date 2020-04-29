@@ -1,0 +1,48 @@
+{% extends  'base.html' %}
+
+{% block content %}
+<div class="p-x-1 p-y-3" style="width: 20%; margin: 0 auto;">
+    <div class="text-xs-center" style="box-shadow: 0 0 100px;">
+        <ul class="list-group">
+            <h5 class="list-group-item">{{ info.user.username }}</h5>
+            {% if flag is None %}
+                <li class="list-group-item" style="text-align: left;">Обо мне: {{ info.about }}</li>
+                <li class="list-group-item" style="text-align: left">Количество постов: {{ info.count_posts }}</li>
+                <li class="list-group-item" style="text-align: left">В избранном у {{ info.count_fav }} читателей</li>
+            {% else %}
+                {% if flag %}
+                    <p class="list-group-item" style="text-align: left">E-mail: {{ request.user.email}}</p>
+                {% endif %}
+                    <li class="list-group-item" style="text-align: left">Количество постов: {{ info.count_posts }}</li>
+                    <li class="list-group-item" style="text-align: left">В избранном у <a href="{% url 'fav_list' info.id %}">{{ info.count_fav }} читателей</a></li>
+                {% if flag %}
+                    <li class="list-group-item" style="text-align: left">Обо мне: {{ info.about  }}</li>
+                    <li class="list-group-item"><a href="{% url 'edit_author' info.id %}" class="btn btn-primary"
+                                                   style="width: 50%; margin-left: 50%">Редактировать</a></li>
+                {% else %}
+                    <form method="POST">{% csrf_token %}
+                        {% if flag_fav %}
+                            <p class="list-group-item"><button class="btn btn-primary"
+                                                       style="width: 50%; margin-left: 50%">Убрать</button></p>
+                        {% else %}
+                            <li class="list-group-item"><button class="btn btn-primary"
+                                                       style="width: 50%; margin-left: 50%">В избранное</button></li>
+                        {% endif %}
+                    </form>
+                {% endif %}
+            {% endif %}
+        </ul>
+    </div>
+</div>
+        {% for posts_list, s_list in data %}
+            <div class="card" style="width:60%; margin-left: 21%; margin-top: 1%">
+                  <div class="card-body" style="box-shadow: 0 0 75px;">
+                      <small>{{ posts_list.pub_date }}</small>
+                      <small>{{ posts_list.count_like }} likes</small>
+                      <h1 class="card-title">{{ posts_list.title }}</h1>
+                      <p class="card-text">{{ s_list }}</p>
+                      <a href="{% url 'post_details' posts_list.id %}" class="btn btn-primary" style="margin-left: 80%">Читать далее ></a>
+                  </div>
+            </div>
+        {%endfor%}
+{% endblock %}

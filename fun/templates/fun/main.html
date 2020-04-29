@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if flag %}
+    {% for post, texts in data %}
+        <div class="row" style="border-radius: 30px;">
+            <div class="card" style="width: 50%; margin-left: 24%; margin-top: 3%; border: white;">
+                <div class="card-body" style="box-shadow: 0 0 75px; border-radius: 30px;">
+                  <small>{{ post.pub_date }} </small>
+                  <small><a href="{% url 'author' post.author.id %}">{{ post.author.user.username }}</a></small>
+                  <small>{{ post.count_like }} likes</small>
+                  <h3 class="card-title">{{ post.title }}</h3>
+                  <p class="card-text">{{ texts }}</p>
+                  <a href="{% url 'post_details' post.id %}" class="btn btn-primary" style="margin-left: 90%">Читать ></a>
+              </div>
+          </div>
+        </div>
+    {% endfor %}
+{% else %}
+            <div class="card" style="width: 50%; margin-left: 24%; margin-top: 1%">
+              <div class="card-body" style="box-shadow: 0 0 75px;">
+                <h3 class="card-title">No posts are available.</h3>
+              </div>
+          </div>
+{% endif %}
+{% endblock %}

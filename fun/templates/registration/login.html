@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="p-x-1 p-y-3" style="width: 20%; margin: 0 auto; margin-top: 7%">
+		<form class="card card-block m-x-auto bg-faded form-width form" method="POST"
+			  style="box-shadow: 0 0 100px; border-radius: 30px">{% csrf_token %}
+			{% csrf_token %}
+			{% if error %}
+				<div class="alert alert-danger" role="alert">
+				  Проверьте правильность введенных данных
+				</div>
+			{% endif %}
+				<legend class="m-b-1 text-xs-center">Вход</legend>
+				<div class="form-group input-group">
+					<span class="has-float-label">
+                        <input class="form-control" name="username" id="username"/>
+						<label for="username">Nickname</label>
+					</span>
+				</div>
+				<div class="form-group has-float-label">
+					<input class="form-control" name="password" id="password" type="password" placeholder="••••••••"/>
+					<label for="password">Пароль</label>
+				</div>
+				<div class="text-xs-center">
+					<div class="text-xs-center">
+					<button class="btn btn-block btn-primary" type="submit">Вход</button>
+				</div>
+				    <span><a href="{% url 'signup' %}">Зарегистрироваться</a></span>
+                </div>
+        </form>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends  'base.html' %}
+{% block content %}
+
+        <form method="POST" class="card card-block m-x-auto bg-faded form-width" style="margin-top: 5%; width: 50%;">
+            {% csrf_token %}
+<!--            <h2 class="glyphicon glyphicon-plus">Ре запись</h2>-->
+            <input class="form-control" style="margin-bottom: 5%; margin-top:1%" name="title" value="{{ post.title }}">
+            <textarea class="form-conteol" style="height: 1000%" name="text">{{ post.text }}</textarea>
+            <div class="text-xs-center">
+                <div class="text-xs-center" style="margin-top: 1%">
+                    <button class="btn btn-primary" type="submit">Сохранить</button>
+                    <a href="{% url 'delete_post' post.id %}" class="btn btn-primary" type="submit">Удалить</a>
+                </div>
+            </div>
+        </form>
+
+{% endblock %}

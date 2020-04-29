@@ -1,0 +1,19 @@
+{% extends  'base.html' %}
+
+{% block content %}
+    <form method="post" >{% csrf_token %}
+        <div class="p-x-1 p-y-3" style="width: 20%; margin: 0 auto;">
+            <div class="text-xs-center" style="box-shadow: 0 0 5px;">
+                <ul class="list-group">
+                    <input class="list-group-item" value="{{ info.user.username }}"
+                           style="color: black;" name="nickname">
+                    <p class="list-group-item" style="text-align: left">E-mail: {{ request.user.email}}</p>
+                    <p class="list-group-item" style="text-align: left">Обо мне:</p>
+                    <textarea class="form-conteol" style="text-align: left;" name="about">{{ info.about  }}</textarea>
+                    <li class="list-group-item"><input type="submit" class="btn btn-primary"
+                                                       style="width: 50%; margin-left: 50%" value="Сохранить"></li>
+                </ul>
+            </div>
+        </div>
+    </form>
+{% endblock %}

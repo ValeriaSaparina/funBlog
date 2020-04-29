@@ -1,0 +1,18 @@
+{% extends  'base.html' %}
+{% block content %}
+
+        <form method="POST" class="card card-block m-x-auto bg-faded form-width" style="margin-top: 5%; width: 50%;">
+            {% csrf_token %}
+            <h2 class="glyphicon glyphicon-plus">Новая запись</h2>
+            <input class="form-control" style="margin-bottom: 5%; margin-top:1%" name="title" placeholder="Заголовок">
+            <input class="form-control" style="margin-bottom: 5%; margin-top:1%" name="theme" placeholder="Тема">
+            <input class="form-control" style="margin-bottom: 5%; margin-top:1%" name="tags" placeholder="Tags">
+            <textarea class="form-conteol" style="height: 1000%" name="text" placeholder="Текст"></textarea>
+            <div class="text-xs-center">
+                <div class="text-xs-center" style="margin-top: 1%">
+                    <button class="btn btn-primary" type="submit">Добавить запись</button>
+                </div>
+            </div>
+        </form>
+
+{% endblock %}
