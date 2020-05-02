@@ -10,7 +10,7 @@
         <div class="card" style="width: 50%; margin-left: 24%; margin-top: 1%; text-align:center">
             <h2 class="list-group-item">Избранные авторы</h2>
             {% for info in author %}
-                    <h4 class="list-group-item"><a href="#">{{ info.user.username }}</a></h4>
+                    <h4 class="list-group-item"><a href="{% url 'author' info.user.id %}">{{ info.user.username }}</a></h4>
             {% endfor %}
         </div>
     {% endif %}

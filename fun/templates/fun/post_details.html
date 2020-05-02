@@ -2,37 +2,72 @@
 {% block content %}
 
         <div class="row">
-            <div class="card" style="width: 50%; margin-left: 10%; margin-top: 1%">
+            <div class="card" style="width: 50%; margin-left: 10%; margin-top: 2%">
               <div class="card-body" style="box-shadow: 0 0 75px;">
                   <small>{{ post.pub_date }}</small>
-                  <small><a href="{% url 'edit_author' post.author.user.id%}">{{ post.author.user.username }}</a></small>
+                  <small><a href="{% url 'author' post.author.user.id%}">{{ post.author.user.username }}</a></small>
                   <small>{{ post.count_like }} likes</small>
                   <h1 class="card-title">{{ post.title }}</h1>
                   <p class="card-text">{{ post.text }}</p>
                   {% if author_flag %}
-                  <div style="margin-left: 85%">
-                    <a href="{% url 'edit_post' post.id %}"><button class="btn btn-primary">Редактировать</button></a>
-                  </div>
+                      <div style="margin-left: 85%">
+                        <a href="{% url 'edit_post' post.id %}"><button class="btn btn-primary">Редактировать</button></a>
+                      </div>
                   {% else %}
                     {% if like_flag %}
-                        <form method="POST">{% csrf_token %}
-                            <button class="btn btn-primary" type="submit" style="margin-left: 88%">Нравится</button>
-                        </form>
+                        {% if auth %}
+                            <form method="POST">{% csrf_token %}
+                                <button class="btn btn-primary" type="submit" name="like" style="margin-left: 88%">Нравится</button>
+                            </form>
+                        {% else %}
+                             <a class="btn btn-primary" href="{% url 'login' %}" style="margin-left: 88%;">Нравится</a>
+                        {% endif %}
                     {% else %}
                         <form method="POST">{% csrf_token %}
-                            <button class="btn" type="submit" style="margin-left: 88%;">Нравится</button>
+                            <button class="btn" type="submit" name="like" style="margin-left: 88%;">Нравится</button>
                         </form>
                     {% endif %}
                   {% endif %}
               </div>
             </div>
 
-            <div class="card" style="width:20%; height: 30%; margin-left: 10%; margin-top: 1%">
+            <div class="card" style="width:20%; height: 30%; margin-left: 10%; margin-top: 2%">
                 <div class="card-body" style="box-shadow: 0 0 75px;">
                     <h3 class="card-title" style="text-align: center">Автор</h3>
                     <h5 class="card-title">Имя: <a href="{% url 'author' post.author.user.id%}">{{ post.author.user.username }}</a></h5>
                     <p class="card-text">Количество постов: {{ post.author.count_posts }}</p>
               </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="card" style="width:50%; height: 30%; margin-left: 10%; margin-top: 2%">
+                <div class="card-body" style="box-shadow: 0 0 75px;">
+                    <form method="POST">{% csrf_token %}
+                        <textarea class="list-group-item" placeholder="комментарий..."
+                                  style="color: black; width: 85%" name="text"></textarea>
+                        {% if auth %}
+                            <button class="btn btn-primary" type="submit" name="comment" style="margin-left: 88%;">Написать</button>
+                        {% else %}
+                             <a class="btn btn-primary" href="{% url 'login' %}" style="margin-left: 88%;">Написать</a>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {% for comment in comments %}
+                <div class="card" style="width:50%; height: 30%; margin-left: 10%; margin-top: 2%">
+                    <div class="card-body" style="box-shadow: 0 0 75px;">
+                        <small>{{ comment.pub_date }}</small>
+                        <small><a href="{% url 'author' post.author.user.id%}">{{ comment.author.user.username }}</a></small>
+                        <p class="card-text">{{ comment.text }}</p>
+                        {% if comment.author.id == request.user.id %}
+                            <form method="POST">{% csrf_token %}
+                                <a class="btn btn-primary" href="{% url 'delete_comment' post.id comment.id %}" type="submit" style="margin-left: 88%; color: white">Удалить</a>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
         </div>
 {% endblock %}

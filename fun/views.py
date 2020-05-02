@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.utils import timezone
 
-from fun.forms import LoginForm, SignupForm, PostForm, AuthorForm
-from fun.models import Post, Author, Like
+from fun.forms import LoginForm, SignupForm, PostForm, AuthorForm, CommentForm
+from fun.models import Post, Author, Like, Comment
 
 
 def pagelogin(request):
@@ -98,6 +98,8 @@ def a_fav(request, user_id):
 
 def author_details(request, username):
     user_id = request.user.id
+    flag = False
+    auth = True
     if user_id is not None:
         my_favorites = get_my_fav(user_id)
         flag_fav = False
@@ -117,27 +119,31 @@ def author_details(request, username):
             author = Author.objects.get(pk=request.user.id)
             if flag_fav:
                 user.count_fav = user.count_fav - 1
-                author_id = request.user.id
+                author_id = author.id
                 author_id = str(author_id) + ';'
-                print('id:' + ' ', author_id)
-                user.fav = user.fav.replace(author_id, '') #this delete
+                user.fav = user.fav.replace(str(author.id) + ';', '')
                 user.save()
-                my_favorites.remove(str(username))
-                author.my_fav = my_favorites
+                author.my_fav = author.my_fav.replace(str(username) + ';', '')
+                print(author.my_fav)
                 author.save()
                 flag_fav = False
             else:
                 user.count_fav = user.count_fav + 1
-                author_id = str(author.id) + ';'
+                author_id = str(request.user.id) + ';'
                 fav = user.fav
-                print('fav', fav)
                 fav += author_id
-                print(fav)
-                user.fav = fav #this delete
+                user.fav = fav
                 user.save()
-                author.my_fav = author.my_fav + str(username) + ';'
+                mf = author.my_fav
+                print(mf)
+                author_id = str(username) + ';'
+                mf += author_id
+                print(mf)
+                author.my_fav = mf
                 author.save()
                 flag_fav = True
+    else:
+        auth = False
     s_list = []
     user_id = int(username)
     posts_list = Post.objects.filter(author_id=user_id)
@@ -148,8 +154,9 @@ def author_details(request, username):
     author = Author.objects.get(pk=user_id)
     data = zip(posts_list, s_list)
     print('flag_fav', flag_fav)
-    return render(request, 'fun/author_details.html', {'info': author, 'flag': flag, 'user_id': user_id, 'data': data,
-                                                       'posts_list': posts_list, 'flag_fav': flag_fav})
+    return render(request, 'fun/author_details.html',
+                  {'info': author, 'flag': flag, 'auth': auth, 'user_id': user_id, 'data': data,
+                   'posts_list': posts_list, 'flag_fav': flag_fav})
 
 
 def edit_author(request, username):
@@ -220,28 +227,41 @@ def new_post(request):
 
 def post_details(request, post_id):
     post = Post.objects.get(pk=post_id)
-    author = Author.objects.get(pk=request.user.id)
-    if post.author.id == request.user.id:
-        author_flag = True
-    else:
-        author_flag = False
-    likes = Like.objects.filter(author_id=author, post_id=post_id)
-    if len(likes) == 0:
-        like_flag = False
-    else:
-        like_flag = True
-    if request.method == 'POST':
-        if like_flag:
-            likes.delete()
-            post.count_like -= 1
-            post.save()
+    comments = Comment.objects.filter(post_id=post_id)
+    if request.user.id is not None:
+        author = Author.objects.get(pk=request.user.id)
+        if post.author.id == request.user.id:
+            author_flag = True
+        else:
+            author_flag = False
+        likes = Like.objects.filter(author_id=author, post_id=post_id)
+        if len(likes) == 0:
             like_flag = False
         else:
-            post.like_set.create(author=author)
-            post.count_like += 1
-            post.save()
             like_flag = True
-    context = {'post': post, 'like_flag': like_flag, 'author_flag': author_flag}
+        if request.method == 'POST':
+            if 'like' in request.POST:
+                if like_flag:
+                    likes.delete()
+                    post.count_like -= 1
+                    post.save()
+                    like_flag = False
+                else:
+                    post.like_set.create(author=author)
+                    post.count_like += 1
+                    post.save()
+                    like_flag = True
+            elif 'comment' in request.POST:
+                form = CommentForm(request.POST)
+                if form.is_valid():
+                    text = form.cleaned_data.get('text')
+                    pub_date = timezone.now()
+                    comment = Comment(author=author, post=post, text=text, pub_date=pub_date)
+                    comment.save()
+                    return redirect('/posts/' + str(post_id))
+        context = {'post': post, 'like_flag': like_flag, 'author_flag': author_flag, 'comments': comments, 'auth': True}
+    else:
+        context = {'post': post, 'like_flag': True, 'author_flag': False, 'comments': comments, 'auth': False}
     return render(request, 'fun/post_details.html', context)
 
 
@@ -271,3 +291,9 @@ def edit_post(request, post_id):
     else:
         form = PostForm()
         return render(request, 'fun/post_edit.html', {'form': form, 'post': post, 'author': author})
+
+
+def delete_comment(request, post_id, comment_id):
+    comment = Comment.objects.get(pk=comment_id)
+    comment.delete()
+    return redirect('/posts/' + str(post_id))

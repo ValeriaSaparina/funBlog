@@ -30,3 +30,7 @@ class PostForm(forms.Form):
     text = forms.CharField(max_length=20000, widget=forms.Textarea)
     theme = forms.CharField(max_length=300)
     tags = forms.CharField(max_length=300)
+
+
+class CommentForm(forms.Form):
+    text = forms.CharField(max_length=2000, widget=forms.Textarea)

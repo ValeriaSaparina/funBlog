@@ -25,8 +25,13 @@
                             <p class="list-group-item"><button class="btn btn-primary"
                                                        style="width: 50%; margin-left: 50%">Убрать</button></p>
                         {% else %}
-                            <li class="list-group-item"><button class="btn btn-primary"
-                                                       style="width: 50%; margin-left: 50%">В избранное</button></li>
+                            {% if auth %}
+                                <li class="list-group-item"><button class="btn btn-primary"
+                                                           style="width: 50%; margin-left: 50%">В избранное</button></li>
+                            {% else %}
+                                <li class="list-group-item"><a class="btn btn-primary" href="{% url 'login' %}"
+                                                               style="width: 50%; margin-left: 50%">В избранное</a></li>
+                            {% endif %}
                         {% endif %}
                     </form>
                 {% endif %}
