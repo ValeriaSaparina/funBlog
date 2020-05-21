@@ -1,16 +1,16 @@
 {% extends  'base.html' %}
 {% block content %}
 
-        <div class="row">
-            <div class="card" style="width: 50%; margin-left: 10%; margin-top: 2%">
-              <div class="card-body" style="box-shadow: 0 0 75px;">
+        <div class="row" >
+            <div class="card" style="width: 50%; margin-left: 10%; margin-top: 2%; border-radius: 30px;">
+              <div class="card-body" style="box-shadow: 0 0 75px; border-radius: 30px;">
                   <small>{{ post.pub_date }}</small>
                   <small><a href="{% url 'author' post.author.user.id%}">{{ post.author.user.username }}</a></small>
                   <small>{{ post.count_like }} likes</small>
                   <h1 class="card-title">{{ post.title }}</h1>
-                  <p class="card-text">{{ post.text }}</p>
+                  <h5 class="card-text">{{ post.text }}</h6>
                   {% if author_flag %}
-                      <div style="margin-left: 85%">
+                      <div style="margin-left: 85%; ">
                         <a href="{% url 'edit_post' post.id %}"><button class="btn btn-primary">Редактировать</button></a>
                       </div>
                   {% else %}
@@ -31,8 +31,8 @@
               </div>
             </div>
 
-            <div class="card" style="width:20%; height: 30%; margin-left: 10%; margin-top: 2%">
-                <div class="card-body" style="box-shadow: 0 0 75px;">
+            <div class="card" style="width:20%; height: 30%; margin-left: 10%; margin-top: 2%; border-radius: 30px;">
+                <div class="card-body" style="box-shadow: 0 0 75px; border-radius: 30px;">
                     <h3 class="card-title" style="text-align: center">Автор</h3>
                     <h5 class="card-title">Имя: <a href="{% url 'author' post.author.user.id%}">{{ post.author.user.username }}</a></h5>
                     <p class="card-text">Количество постов: {{ post.author.count_posts }}</p>
@@ -40,8 +40,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="card" style="width:50%; height: 30%; margin-left: 10%; margin-top: 2%">
-                <div class="card-body" style="box-shadow: 0 0 75px;">
+            <div class="card" style="width:50%; height: 30%; margin-left: 10%; margin-top: 2%; border-radius: 30px;">
+                <div class="card-body" style="box-shadow: 0 0 75px; border-radius: 30px;">
                     <form method="POST">{% csrf_token %}
                         <textarea class="list-group-item" placeholder="комментарий..."
                                   style="color: black; width: 85%" name="text"></textarea>
@@ -56,8 +56,8 @@
         </div>
         <div class="row">
             {% for comment in comments %}
-                <div class="card" style="width:50%; height: 30%; margin-left: 10%; margin-top: 2%">
-                    <div class="card-body" style="box-shadow: 0 0 75px;">
+                <div class="card" style="width:50%; height: 30%; margin-left: 10%; margin-top: 2%; border-radius: 30px;">
+                    <div class="card-body" style="box-shadow: 0 0 75px; border-radius: 30px;">
                         <small>{{ comment.pub_date }}</small>
                         <small><a href="{% url 'author' post.author.user.id%}">{{ comment.author.user.username }}</a></small>
                         <p class="card-text">{{ comment.text }}</p>

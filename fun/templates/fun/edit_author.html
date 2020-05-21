@@ -1,17 +1,17 @@
 {% extends  'base.html' %}
 
 {% block content %}
-    <form method="post" >{% csrf_token %}
-        <div class="p-x-1 p-y-3" style="width: 20%; margin: 0 auto;">
-            <div class="text-xs-center" style="box-shadow: 0 0 5px;">
-                <ul class="list-group">
+    <form method="post">{% csrf_token %}
+        <div class="p-x-1 p-y-3" style="width: 20%; margin: 0 auto; border-radius: 30px;">
+            <div class="text-xs-center" style="box-shadow: 0 0 100px; border-radius: 30px;">
+                <ul class="list-group" style="border-radius: 30px; border: 0.1px solid white;">
                     <input class="list-group-item" value="{{ info.user.username }}"
-                           style="color: black;" name="nickname">
-                    <p class="list-group-item" style="text-align: left">E-mail: {{ request.user.email}}</p>
-                    <p class="list-group-item" style="text-align: left">Обо мне:</p>
+                           style="color: black; border-radius: 30px 30px 0 0; border: 0.1px solid white;" name="nickname">
+                    <p class="list-group-item" style="text-align: left; ">E-mail: {{ request.user.email}}</p>
+                    <p class="list-group-item" style="text-align: left;">Обо мне:</p>
                     <textarea class="form-conteol" style="text-align: left;" name="about">{{ info.about  }}</textarea>
-                    <li class="list-group-item"><input type="submit" class="btn btn-primary"
-                                                       style="width: 50%; margin-left: 50%" value="Сохранить"></li>
+                    <li class="list-group-item" style="border-radius: 0 0 30px 30px;"><input type="submit" class="btn btn-primary"
+                                                       style="width: 50%; margin-left: 50%;" value="Сохранить"></li>
                 </ul>
             </div>
         </div>

@@ -25,6 +25,7 @@ class Post(models.Model):
 class Like(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    flag = models.BooleanField(default=False)
 
 
 class Comment(models.Model):
@@ -32,3 +33,4 @@ class Comment(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     text = models.TextField()
     pub_date = models.DateTimeField()
+    flag = models.BooleanField(default=False)

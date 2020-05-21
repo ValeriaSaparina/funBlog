@@ -1,10 +1,10 @@
 {% extends  'base.html' %}
 {% block content %}
 
-        <form method="POST" class="card card-block m-x-auto bg-faded form-width" style="margin-top: 5%; width: 50%;">
+        <form method="POST" class="card card-block m-x-auto bg-faded form-width" style="margin-top: 5%; width: 50%; border-color: white; box-shadow: 0 0 100px; border-radius: 30px;">
             {% csrf_token %}
-<!--            <h2 class="glyphicon glyphicon-plus">Ре запись</h2>-->
-            <input class="form-control" style="margin-bottom: 5%; margin-top:1%" name="title" value="{{ post.title }}">
+            <h2 class="glyphicon glyphicon-plus">Ре запись</h2>
+            <input class="form-colocantrol" style="margin-bottom: 5%; margin-top:1%" name="title" value="{{ post.title }}">
             <textarea class="form-conteol" style="height: 1000%" name="text">{{ post.text }}</textarea>
             <div class="text-xs-center">
                 <div class="text-xs-center" style="margin-top: 1%">

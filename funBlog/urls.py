@@ -34,7 +34,8 @@ urlpatterns = [
     path('posts/<int:post_id>/edit/', fv.edit_post, name='edit_post'),
 
     path('posts/<int:post_id>/delete_comment/<int:comment_id>', fv.delete_comment, name='delete_comment'),
-    # the weekend blinding lights
+
+    path('notification/', fv.notification, name='notification'),
 
     path('login/', fv.pagelogin, name='login'),
     path('signup/', fv.signup, name='signup'),

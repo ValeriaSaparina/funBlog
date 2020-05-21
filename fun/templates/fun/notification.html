@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container card" style="background: white;width: 50%; margin-left: 24%; margin-top: 1%; box-shadow: 0 0 75px; border-radius: 30px;">
+      {% if comments or likes %}
+        <div class="row" style="background: white; border-radius: 30px;">
+            <div class="col-sm" style="background: white; border-radius: 30px;">
+                <h2 style="text-align:center; margin-top: 2%">Нравится</h2>
+                {% for like in likes %}
+                    {% for l in like %}
+                        <p>+1 like <a href="{% url 'author' l.author.user.id %}">{{ l.author.user.username }}</a> <a href="{% url 'post_details' l.post.id %}">{{ l.post.title }}</a></p>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            <div class="col-sm" >
+              <h2 style="text-align:center; margin-top: 2%">Комментарии</h2>
+              {% for comment in comments %}
+                {% for c in comment %}
+                    <p>+1 комментарий <a href="{% url 'author' c.author.user.id %}"> {{ c.author.user.username }}</a> <a href="{% url 'post_details' c.post.id %}">{{ c.post.title }}</a></p>
+                {% endfor %}
+              {% endfor %}
+            </div>
+        </div>
+      {% else %}
+        <div class="row" style="background: white; border-radius: 30px;">
+            <h2 style="margin-top: 2%; margin-left: 30%">Новых уведомлений нет</h2>
+        </div>  
+      {% endif %}
+      </div>
+{% endblock %}

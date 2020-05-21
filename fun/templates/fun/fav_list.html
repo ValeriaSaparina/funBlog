@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
     {% if error %}
-        <div class="card" style="width: 50%; margin-left: 24%; margin-top: 1%">
-            <div class="card-body" style="box-shadow: 0 0 75px;">
-                <h3 class="card-title">Вы не являетесь избранным автором</h3>
+        <div class="card" style="width: 50%; margin-left: 24%; margin-top: 2%; border-radius: 30px;">
+            <div class="card-body" style="box-shadow: 0 0 75px; border-radius: 30px;">
+                <h3 class="card-title">Нет в списках избранных</h3>
             </div>
         </div>
     {% else %}
-        <div class="card" style="width: 50%; margin-left: 24%; margin-top: 1%; text-align:center">
+        <div class="card" style="width: 50%; margin-left: 24%; margin-top: 2%; text-align:center; border-radius: 30px;">
             <h2 class="list-group-item">В избранных</h2>
             {% for info in author %}
                     <h4 class="list-group-item"><a href="{% url 'author' info.user.id %}">{{ info.user.username }}</a></h4>
